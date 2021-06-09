@@ -2,6 +2,30 @@ import numpy as np
 import music21 as m21
 
 
+def get_vocabulary(data):
+    notes = set([])
+    for e in data:
+        notes.add(e)
+    pitchnames = sorted(notes)
+    # create a dictionary to map pitches to integers
+    return dict((note, number) for number, note in enumerate(pitchnames))
+
+
+def tokenize(seq, vocabulary):
+    tokens = []
+    for e in seq:
+        tokens.append(vocabulary[e])
+    return tokens
+
+
+def detokenize(tokens, vocabulary)
+    vocabulary_rev = vocabulary.update(dict((vocabulary[k], k) for k in vocabulary))
+    seq = []
+    for e in tokens:
+        seq.append(vocabulary_rev[e])
+    return seq
+
+
 def load_songs(dataset_path, max_songs=None):
   songs = []
   for path, subdirs, files in os.walk(dataset_path):
@@ -15,7 +39,7 @@ def load_songs(dataset_path, max_songs=None):
   return songs
 
 
-def transposeToCmajAmin(song):
+def transpose_to_CmajAmin(song):
   # pick music tone
   parts = song.getElementsByClass(m21.stream.Part)
   measures = parts[0].getElementsByClass(m21.stream.Measure)
@@ -35,7 +59,7 @@ def transposeToCmajAmin(song):
   return song.transpose(interval)
 
 
-def streamToNoteArray(stream):
+def stream_to_note_array(stream):
     notes = []
     parts = m21.instrument.partitionByInstrument(stream)
     if parts:

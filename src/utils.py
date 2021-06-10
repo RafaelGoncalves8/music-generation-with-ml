@@ -74,7 +74,7 @@ def stream_to_note_array(stream):
             notes.append('.'.join(str(n) for n in element.normalOrder))
     return np.array(notes)
 
-def note_array_to_stram(note_array):
+def note_array_to_stream(note_array):
     for pattern in note_array:
         # pattern is a chord
         if ('.' in pattern) or pattern.isdigit():

@@ -20,7 +20,7 @@ def tokenize(seq, vocabulary):
 
 
 def detokenize(tokens, vocabulary):
-    vocabulary_rev = vocabulary.update(dict((vocabulary[k], k) for k in vocabulary))
+    vocabulary_rev = dict((vocabulary[k], k) for k in vocabulary)
     seq = []
     for e in tokens:
         seq.append(vocabulary_rev[e])

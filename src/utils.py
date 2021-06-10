@@ -1,12 +1,12 @@
 import os
-import numpy as np
 import music21 as m21
 
 
 def get_vocabulary(data):
     notes = set([])
-    for e in data:
-        notes.add(e)
+    for seq in data:
+        for e in seq:
+            notes.add(e)
     pitchnames = sorted(notes)
     # create a dictionary to map pitches to integers
     return dict((note, number) for number, note in enumerate(pitchnames))
@@ -60,7 +60,7 @@ def transpose_to_CmajAmin(song):
   return song.transpose(interval)
 
 
-def stream_to_note_array(stream):
+def stream_to_notes(stream):
     notes = []
     parts = m21.instrument.partitionByInstrument(stream)
     if parts:
@@ -72,9 +72,10 @@ def stream_to_note_array(stream):
             notes.append(str(element.pitch))
         elif isinstance(element, m21.chord.Chord):
             notes.append('.'.join(str(n) for n in element.normalOrder))
-    return np.array(notes)
+    return notes
 
-def note_array_to_stream(note_array):
+
+def notes_to_stream(note_array):
     offset = 0
     output_notes = []
     for pattern in note_array:
@@ -101,3 +102,19 @@ def note_array_to_stream(note_array):
     midi_stream = m21.stream.Stream(output_notes)
 
     return midi_stream
+
+
+def notebook_show(music):
+    display(Image(str(music.write('lily.png'))))
+
+
+def notebook_play(music):
+    filename = music.write('mid')
+    os.system(f'fluidsynth -ni font.sf2 {filename} -F {filename}\.wav -r 16000 > /dev/null')
+    display(Audio(filename + '.wav'))
+
+
+def create_lilypond_environment():
+    environment = m21.environment.UserSettings()
+    environment.create()
+    environment['lilypondPath'] = '/usr/bin/lilypond'

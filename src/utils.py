@@ -75,6 +75,8 @@ def stream_to_note_array(stream):
     return np.array(notes)
 
 def note_array_to_stream(note_array):
+    offset = 0
+    output_notes = []
     for pattern in note_array:
         # pattern is a chord
         if ('.' in pattern) or pattern.isdigit():

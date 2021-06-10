@@ -73,3 +73,29 @@ def stream_to_note_array(stream):
         elif isinstance(element, m21.chord.Chord):
             notes.append('.'.join(str(n) for n in element.normalOrder))
     return np.array(notes)
+
+def note_array_to_stram(note_array):
+    for pattern in note_array:
+        # pattern is a chord
+        if ('.' in pattern) or pattern.isdigit():
+            notes_in_chord = pattern.split('.')
+            notes = []
+            for current_note in notes_in_chord:
+                new_note = m21.note.Note(int(current_note))
+                new_note.storedInstrument = m21.instrument.Piano()
+                notes.append(new_note)
+            new_chord = m21.chord.Chord(notes)
+            new_chord.offset = offset
+            output_notes.append(new_chord)
+        # pattern is a note
+        else:
+            new_note = m21.note.Note(pattern)
+            new_note.offset = offset
+            new_note.storedInstrument = m21.instrument.Piano()
+            output_notes.append(new_note)
+        # increase offset each iteration so that notes do not stack
+        offset += 0.5
+
+    midi_stream = m21.stream.Stream(output_notes)
+
+    return midi_stream

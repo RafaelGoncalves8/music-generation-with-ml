@@ -73,3 +73,4 @@ def stream_to_note_array(stream):
         elif isinstance(element, m21.chord.Chord):
             notes.append('.'.join(str(n) for n in element.normalOrder))
     return np.array(notes)
+

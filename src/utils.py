@@ -1,5 +1,6 @@
 import os
 import music21 as m21
+from IPython.display import Image, Audio
 
 
 def get_vocabulary(data):

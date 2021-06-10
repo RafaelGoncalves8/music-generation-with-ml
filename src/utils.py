@@ -30,8 +30,8 @@ def detokenize(tokens, vocabulary):
 def load_songs(dataset_path, max_songs=None):
   songs = []
   for path, subdirs, files in os.walk(dataset_path):
-    if max_files == None:
-        max_files = len(files)
+    if max_songs == None:
+        max_songs = len(files)
     for file in [f for f in files if f[-3:] == "mid"][:max_songs]:
         song = m21.converter.parse(os.path.join(path, file))
         song_measured = song.makeNotation()
